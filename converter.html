@@ -1,0 +1,60 @@
+<textarea style="width:100%;height:50%;position:absolute:top:0;left:0" id="in" onkeyup="converter()" placeholder="Favor usar o seguinte formato:
+(valor 1 coluna 1(pode ser um [número] ou [número * 10n ou 10^n]) ± erro (mesmo formato))
+(valor 2 coluna 2(pode ser um [número] ou [número * 10n ou 10^n]) ± erro (mesmo formato))
+Exemplo:
+10 ± 2
+5 * 10^-2 ± 2 * 10^-3
+1 ± 1
+7 * 10^-3 ± 1 * 10-3	(quando 10-³ é copiado, pode sair 10-3. Não corrija. Eu entendo.)
+
+(Não esqueça de pular uma linha extra no final, se não o último par será ignorado)" value=""></textarea><br>
+<textarea style="width:100%;height:50%;position:absolute:top:0;left:0" id="out" placeholder="Resultado do exemplo:
+10 0.05 2 0.002
+1 0.007 1 0.001"></textarea><br>
+<script>
+window.onload=load;
+function load()
+{
+	document.getElementById("in").value="";
+	document.getElementById("out").value="";
+}
+function digitFromSuperscript(superChar) {
+	var result = "⁰¹²³⁴⁵⁶⁷⁸⁹".indexOf(superChar);
+	if(result > -1) { return result; }
+	else { return superChar; }
+}
+function converter()
+{
+	out="";
+	try
+	{
+		a=document.getElementById("in").value;
+		a=a.replace(/,/g,".").replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, digitFromSuperscript).replace(/⁻/g,"-").match(/.+?\n.+(?=\n)?/g);
+		for(line of a)
+		{
+			line=line.trim().split("\n");
+			for(l in line)
+			{
+				s=line[l].split("±");
+				for(_s in s)
+				{
+					split=s[_s]
+					split=split.split("*")
+					if(split.length==1 && (split[0].trim().length>2 && split[0].trim().substr(0,2)=="10")) s[_s]=1*Math.pow(10,Number(Number(((split[0]||"").match(/10(-*\d+)/)||(split[0]||"").split("^"))[1])||"0"));
+					else s[_s]=Number(split[0])*Math.pow(10,Number(Number(((split[1]||"").match(/10(-*\d+)/)||(split[1]||"").split("^"))[1])||"0"));
+				}
+				line[l]=s;
+			}
+			out+=line[0][0]+"\t"+line[1][0]+"\t"+line[0][1]+"\t"+line[1][1]+"\n";
+		}
+		/*a.match(/(.*?) *± *(. *)(.*?)@/g).forEach((e)=>{
+			match=e.match(/(.*?) *± *(. *)(.*?)@/);
+			m3=match[3].substr(1).split("-");
+			out+=match[1]+"\t"+(Number(match[2])*Math.pow(Number(m3[0]),-Number(m3[1])))+"\n";
+		});
+		out=out.replace(/,/g,".").replace(/(.*?)\n(.*?)\n/g,"$1\t$2\n").replace(/(.*?)\t(.*?)\t(.*?)\t(.*?)/g,"$1\t$3\t$2\t$4");*/
+		document.getElementById("out").value=out;
+	}
+	catch(e){document.getElementById("out").value=out;document.getElementById("out").value+="(Erro encontrado na formatação)";}
+}
+</script>
