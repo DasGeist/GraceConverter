@@ -7,6 +7,9 @@ Copiar valores de tabela para o formato do Grace é o inferno. Esse programa faz
 
 * Copie apenas os dados. Não inclua os títulos.
 
+![Imagem provando que funciona](https://github.com/DasGeist/GraceConverter/raw/master/out.png "Exemplo feito com o programa")
+
+
 Tabela para testes:
 
 | X | Y |
