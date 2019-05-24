@@ -3,6 +3,8 @@ Uma ferramenta para a conversão de tabelas para o formato aceito pelo Grace.
 
 ---
 
+Para usar, acesse https://dasgeist.github.io/GraceConverter/ ou Clone o repositório.
+
 Copiar valores de tabela para o formato do Grace é o inferno. Esse programa faz isso para você. Copie sua tabela para o campo de cima e instantaneamente a versão convertida estará disponível no campo de baixo para copiar e ser feliz.
 
 * Copie apenas os dados. Não inclua os títulos.
